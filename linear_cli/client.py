@@ -147,3 +147,38 @@ class LinearClient:
             return None
 
         return response.json()
+
+    def get_team(self, team_id):
+        query = """
+        query GetTeam($teamId: String!) {
+            team(id: $teamId) {
+                id
+                name
+                members {
+                    nodes {
+                        id
+                        name
+                    }
+                }
+            }
+        }
+        """
+
+        variables = {
+            "teamId": team_id,
+        }
+
+        response = requests.post(
+            self.base_url,
+            headers=self.headers,
+            json={"query": query, "variables": variables},
+        )
+
+        # Add debugging information
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {response.text}")
+
+        if response.status_code != 200:
+            return None
+
+        return response.json()
