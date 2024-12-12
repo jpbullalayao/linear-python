@@ -51,6 +51,82 @@ class LinearClient:
 
         return response.json()
 
+    def get_issue(self, issue_id):
+        query = """
+        query GetIssue($issueId: String!) {
+            issue(id: $issueId) {
+                id
+                assignee {
+                  id
+                  name
+                }
+                creator {
+                  id
+                  name
+                }
+                description
+                dueDate
+                labels {
+                  nodes {
+                    id
+                    name
+                  }
+                }
+                priority
+                priorityLabel
+                project {
+                  id
+                  name
+                }
+                state {
+                  id
+                  name
+                  position
+                }
+                title
+                url
+            }
+        }
+        """
+
+        variables = {
+            "issueId": issue_id,
+        }
+
+        response = requests.post(
+            self.base_url,
+            headers=self.headers,
+            json={"query": query, "variables": variables},
+        )
+
+        # Add debugging information
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {response.text}")
+
+        if response.status_code != 200:
+            return None
+
+        return response.json()
+
+    def get_me(self):
+        query = """
+        {
+            viewer {
+                id
+                name
+                email
+            }
+        }
+        """
+        response = requests.post(
+            self.base_url, headers=self.headers, json={"query": query}
+        )
+
+        if response.status_code != 200:
+            return None
+
+        return response.json()
+
     def get_teams(self):
         query = """
         {
