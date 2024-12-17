@@ -1,6 +1,6 @@
 # Linear Python
 
-A Python client for the Linear API.
+A Python client for the [Linear](https://linear.app/) API.
 
 ## Installation
 
