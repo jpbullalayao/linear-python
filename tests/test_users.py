@@ -8,7 +8,7 @@ class TestUserClient(unittest.TestCase):
     def setUp(self):
         self.client = UserClient("fake-api-key")
 
-    @patch("linear_cli.base.requests.post")
+    @patch("linear_python.base.requests.post")
     def test_get_user(self, mock_post):
         # Setup mock response
         mock_post.return_value.status_code = 200
@@ -25,7 +25,7 @@ class TestUserClient(unittest.TestCase):
         mock_post.assert_called_once()
         self.assertEqual(response["data"]["user"]["id"], "user1")
 
-    @patch("linear_cli.base.requests.post")
+    @patch("linear_python.base.requests.post")
     def test_get_users(self, mock_post):
         # Setup mock response
         mock_post.return_value.status_code = 200
@@ -46,7 +46,7 @@ class TestUserClient(unittest.TestCase):
         mock_post.assert_called_once()
         self.assertEqual(len(response["data"]["users"]["nodes"]), 1)
 
-    @patch("linear_cli.base.requests.post")
+    @patch("linear_python.base.requests.post")
     def test_get_viewer(self, mock_post):
         # Setup mock response
         mock_post.return_value.status_code = 200
