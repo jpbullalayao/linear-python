@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from linear_cli.resources.users import UserClient
+from linear_python.resources.users import UserClient
 
 
 class TestUserClient(unittest.TestCase):

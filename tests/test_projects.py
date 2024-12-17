@@ -1,6 +1,6 @@
 import pytest
 
-from linear_cli.resources.projects import ProjectClient
+from linear_python.resources.projects import ProjectClient
 
 
 @pytest.fixture

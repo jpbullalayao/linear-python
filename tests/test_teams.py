@@ -1,6 +1,6 @@
 import pytest
 
-from linear_cli.resources.teams import TeamClient
+from linear_python.resources.teams import TeamClient
 
 
 @pytest.fixture

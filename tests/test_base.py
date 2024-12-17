@@ -1,4 +1,4 @@
-from linear_cli.base import BaseClient
+from linear_python.base import BaseClient
 
 
 def test_base_client_initialization():

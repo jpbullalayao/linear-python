@@ -1,6 +1,6 @@
 import pytest
 
-from linear_cli.resources.issues import IssueClient
+from linear_python.resources.issues import IssueClient
 
 
 @pytest.fixture
