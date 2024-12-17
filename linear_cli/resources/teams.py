@@ -37,15 +37,3 @@ class TeamClient(BaseClient):
         }
 
         return self._make_request(query, variables)
-
-    def get_me(self):
-        query = """
-        {
-            viewer {
-                id
-                name
-                email
-            }
-        }
-        """
-        return self._make_request(query)

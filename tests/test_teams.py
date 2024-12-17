@@ -39,15 +39,3 @@ def test_get_team(team_client, mocker):
 
     result = team_client.get_team("team-1")
     assert result == mock_response
-
-
-def test_get_me(team_client, mocker):
-    mock_response = {
-        "data": {
-            "viewer": {"id": "user-1", "name": "Test User", "email": "test@example.com"}
-        }
-    }
-    mocker.patch.object(team_client, "_make_request", return_value=mock_response)
-
-    result = team_client.get_me()
-    assert result == mock_response
