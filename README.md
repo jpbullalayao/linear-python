@@ -44,6 +44,10 @@ new_issue = client.create_issue(issue_data)
 print(f"Created issue: {new_issue['data']['issueCreate']['issue']['url']}")
 ```
 
+## Resources
+
+- [Linear Docs](https://developers.linear.app/docs)
+
 ## License
 
 MIT License
