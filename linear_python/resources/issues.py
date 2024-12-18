@@ -1,6 +1,6 @@
 from ..base import BaseClient
 
-from ..types import IssueArchivePayload, IssueCreateInput, IssuePayload, IssueUpdateInput
+from ..types import Issue, IssueArchivePayload, IssueCreateInput, IssuePayload, IssueUpdateInput
 
 class IssueClient(BaseClient):
     def create_issue(self, data: IssueCreateInput) -> IssuePayload:
@@ -42,7 +42,7 @@ class IssueClient(BaseClient):
         """
         return self._make_request(mutation, api_data)
 
-    def get_issue(self, issue_id):
+    def get_issue(self, issue_id) -> Issue:
         query = """
         query GetIssue($issueId: String!) {
             issue(id: $issueId) {

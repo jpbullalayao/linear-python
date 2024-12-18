@@ -1,4 +1,5 @@
 from .issue import Issue, IssueArchivePayload, IssueCreateInput, IssuePayload, IssueUpdateInput
+from .user import User, UserConnection
 
 __all__ = [
     "Issue",
@@ -6,4 +7,6 @@ __all__ = [
     "IssueCreateInput",
     "IssuePayload",
     "IssueUpdateInput",
+    "User",
+    "UserConnection",
 ]
