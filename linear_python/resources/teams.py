@@ -1,10 +1,11 @@
 from ..base import BaseClient
+from ..types import Team, TeamConnection
 
 
 class TeamClient(BaseClient):
-    def get_teams(self):
+    def get_teams(self) -> TeamConnection:
         query = """
-        {
+        query GetTeams {
             teams {
                 nodes {
                     id
@@ -14,9 +15,13 @@ class TeamClient(BaseClient):
         }
         """
 
-        return self._make_request(query)
+        response = self._make_request(query)
+        if not response:
+            return response
 
-    def get_team(self, team_id):
+        return response["data"]["teams"]
+
+    def get_team(self, team_id) -> Team:
         query = """
         query GetTeam($teamId: String!) {
             team(id: $teamId) {
@@ -25,6 +30,7 @@ class TeamClient(BaseClient):
                 members {
                     nodes {
                         id
+                        email
                         name
                     }
                 }
@@ -36,4 +42,8 @@ class TeamClient(BaseClient):
             "teamId": team_id,
         }
 
-        return self._make_request(query, variables)
+        response = self._make_request(query, variables)
+        if not response:
+            return response
+
+        return response["data"]["team"]
