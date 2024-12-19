@@ -1,6 +1,12 @@
 from ..base import BaseClient
+from ..types import (
+    Issue,
+    IssueArchivePayload,
+    IssueCreateInput,
+    IssuePayload,
+    IssueUpdateInput,
+)
 
-from ..types import Issue, IssueArchivePayload, IssueCreateInput, IssuePayload, IssueUpdateInput
 
 class IssueClient(BaseClient):
     def create_issue(self, data: IssueCreateInput) -> IssuePayload:
@@ -19,12 +25,7 @@ class IssueClient(BaseClient):
             raise ValueError("title is required in data")
 
         # Convert team_id to teamId for GraphQL API
-        api_data = {
-            "input": {
-                "teamId": data.pop("team_id"),
-                **data
-            }
-        }
+        api_data = {"input": {"teamId": data.pop("team_id"), **data}}
 
         mutation = """
         mutation CreateIssue($input: IssueCreateInput!) {
@@ -40,7 +41,12 @@ class IssueClient(BaseClient):
             }
         }
         """
-        return self._make_request(mutation, api_data)
+
+        response = self._make_request(mutation, api_data)
+        if not response:
+            return response
+
+        return response["data"]["issueCreate"]
 
     def get_issue(self, issue_id) -> Issue:
         query = """
@@ -84,10 +90,15 @@ class IssueClient(BaseClient):
             "issueId": issue_id,
         }
 
-        return self._make_request(query, variables)
+        response = self._make_request(query, variables)
+        if not response:
+            return response
 
+        return response["data"]["issue"]
 
-    def update_issue(self, issue_id: str, data: IssueUpdateInput = None) -> IssuePayload:
+    def update_issue(
+        self, issue_id: str, data: IssueUpdateInput = None
+    ) -> IssuePayload:
         """
         Update an issue using a dictionary of field data.
         Required fields: issue_id
@@ -112,13 +123,13 @@ class IssueClient(BaseClient):
         }
         """
 
-        api_data = {
-            "input": {
-                "issueId": issue_id,
-                **(data or {})
-            }
-        }
-        return self._make_request(mutation, api_data)
+        api_data = {"issueId": issue_id, "input": {**(data or {})}}
+
+        response = self._make_request(mutation, api_data)
+        if not response:
+            return response
+
+        return response["data"]["issueUpdate"]
 
     def delete_issue(self, issue_id, permanently_delete=True) -> IssueArchivePayload:
         mutation = """
@@ -140,8 +151,11 @@ class IssueClient(BaseClient):
 
         api_data = {
             "issueId": issue_id,
-            "permanentlyDelete": permanently_delete,
+            # "permanentlyDelete": permanently_delete,
         }
 
-        return self._make_request(mutation, api_data)
+        response = self._make_request(mutation, api_data)
+        if not response:
+            return response
 
+        return response["data"]["issueDelete"]
