@@ -31,7 +31,7 @@ def test_create_project_success(project_client, mocker):
         }
     )
 
-    assert result == mock_response
+    assert result == mock_response["data"]["projectCreate"]
 
 
 def test_create_project_validation(project_client):

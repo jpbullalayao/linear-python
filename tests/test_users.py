@@ -23,7 +23,7 @@ class TestUserClient(unittest.TestCase):
 
         # Assert request was made with correct parameters
         mock_post.assert_called_once()
-        self.assertEqual(response["data"]["user"]["id"], "user1")
+        self.assertEqual(response["id"], "user1")
 
     @patch("linear_python.base.requests.post")
     def test_get_users(self, mock_post):
@@ -44,7 +44,7 @@ class TestUserClient(unittest.TestCase):
 
         # Assert request was made with correct parameters
         mock_post.assert_called_once()
-        self.assertEqual(len(response["data"]["users"]["nodes"]), 1)
+        self.assertEqual(len(response["nodes"]), 1)
 
     @patch("linear_python.base.requests.post")
     def test_get_viewer(self, mock_post):
@@ -65,7 +65,7 @@ class TestUserClient(unittest.TestCase):
 
         # Assert request was made with correct parameters
         mock_post.assert_called_once()
-        self.assertEqual(response["data"]["viewer"]["id"], "viewer1")
+        self.assertEqual(response["id"], "viewer1")
 
 
 if __name__ == "__main__":
