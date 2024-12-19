@@ -1,6 +1,6 @@
 from ..base import BaseClient
-
 from ..types import User, UserConnection
+
 
 class UserClient(BaseClient):
     def get_user(self, user_id: str) -> User:
@@ -14,7 +14,14 @@ class UserClient(BaseClient):
             }
         }
         """
-        return self._make_request(query, {"id": user_id})
+
+        variables = {"id": user_id}
+
+        response = self._make_request(query, variables)
+        if not response:
+            return response
+
+        return response["data"]["user"]
 
     def get_users(self) -> UserConnection:
         """Get all users"""
@@ -29,7 +36,11 @@ class UserClient(BaseClient):
             }
         }
         """
-        return self._make_request(query)
+        response = self._make_request(query)
+        if not response:
+            return response
+
+        return response["data"]["users"]
 
     def get_viewer(self) -> User:
         """Get the currently authenticated user"""
@@ -42,4 +53,8 @@ class UserClient(BaseClient):
             }
         }
         """
-        return self._make_request(query)
+        response = self._make_request(query)
+        if not response:
+            return response
+
+        return response["data"]["viewer"]
