@@ -1,11 +1,12 @@
 from typing import Optional
+
 import strawberry
 
 
 @strawberry.type
 class Issue:
     id: strawberry.ID
-    title: str 
+    title: str
     url: str
 
 
@@ -19,7 +20,7 @@ class IssueArchivePayload:
 @strawberry.type
 class IssueCreateInput:
     description: Optional[str]
-    team_id: str
+    teamId: str
     title: Optional[str]
 
 

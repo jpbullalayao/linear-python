@@ -1,31 +1,27 @@
 from ..base import BaseClient
+from ..types import ProjectCreateInput, ProjectPayload
 
 
 class ProjectClient(BaseClient):
-    def create_project(self, project_data: dict):
+    def create_project(self, data: ProjectCreateInput) -> ProjectPayload:
         """
         Create a project using a dictionary of project data.
         Required fields: name, teamIds
         Optional fields: description, priority
         """
-        if not isinstance(project_data, dict):
-            raise TypeError("project_data must be a dictionary")
+        if not isinstance(data, dict):
+            raise TypeError("data must be a dictionary")
 
-        if "name" not in project_data:
-            raise ValueError("name is required in project_data")
+        if "name" not in data:
+            raise ValueError("name is required in data")
 
-        if "teamIds" not in project_data:
-            raise ValueError("teamIds is required in project_data")
+        if "teamIds" not in data:
+            raise ValueError("teamIds is required in data")
 
         mutation = """
-        mutation CreateProject($name: String!, $description: String, $priority: Int, $teamIds: [String!]!) {
+        mutation CreateProject($input: ProjectCreateInput!) {
             projectCreate(
-                input: {
-                    name: $name,
-                    description: $description,
-                    priority: $priority,
-                    teamIds: $teamIds
-                }
+                input: $input
             ) {
                   success
                   project {
@@ -37,4 +33,10 @@ class ProjectClient(BaseClient):
           }
         """
 
-        return self._make_request(mutation, project_data)
+        api_data = {"input": {**data}}
+
+        response = self._make_request(mutation, api_data)
+        if not response:
+            return response
+
+        return response["data"]["projectCreate"]

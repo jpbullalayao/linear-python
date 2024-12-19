@@ -24,9 +24,6 @@ class IssueClient(BaseClient):
         if "title" not in data:
             raise ValueError("title is required in data")
 
-        # Convert team_id to teamId for GraphQL API
-        api_data = {"input": {"teamId": data.pop("team_id"), **data}}
-
         mutation = """
         mutation CreateIssue($input: IssueCreateInput!) {
             issueCreate(
@@ -41,6 +38,8 @@ class IssueClient(BaseClient):
             }
         }
         """
+
+        api_data = {"input": {**data}}
 
         response = self._make_request(mutation, api_data)
         if not response:
