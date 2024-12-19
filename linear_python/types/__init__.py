@@ -6,6 +6,7 @@ from .issue import (
     IssueUpdateInput,
 )
 from .project import Project, ProjectCreateInput, ProjectPayload
+from .team import Team, TeamConnection
 from .user import User, UserConnection
 
 __all__ = [
@@ -17,6 +18,8 @@ __all__ = [
     "Project",
     "ProjectCreateInput",
     "ProjectPayload",
+    "Team",
+    "TeamConnection",
     "User",
     "UserConnection",
 ]
