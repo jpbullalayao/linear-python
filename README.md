@@ -1,6 +1,6 @@
-# Linear Python
+# Linear Python Library
 
-A Python client for the [Linear](https://linear.app/) API.
+The Linear Python library provides easy integration with the [Linear](https://linear.app/) API from applications built in Python.
 
 ## Requirements
 
@@ -22,16 +22,14 @@ pip install linear-python
 
 ## Usage
 
-### Configuration
-
-Retrieve your personal Linear API Key, and then initialize the python Linear client:
+Create/retrieve your personal Linear API Key in the `Settings & access` tab in the Linear app, and then initialize the python Linear client:
 
 ```python
 from linear_python import LinearClient
-client = LinearClient("<Linear API Key Here>")
+client = LinearClient("lin_api_***")
 ```
 
-You're now ready to use linear-python! Below are a few sample functions you can call.
+You're now ready to use the Linear client! `linear-python` currently provides 1-to-1 python functions to some GraphQL queries/mutations that you would call to access the Linear API. Below are a few sample functions you can call.
 
 #### Get Current User (Viewer)
 
@@ -49,6 +47,10 @@ issue_data = {
 }
 new_issue = client.create_issue(issue_data)
 ```
+
+### Contributing
+
+There is currently a lot of work to do on this library. A lot of Linear API's GraphQL queries/mutations do not have `linear-python` functions. Feel free to tweet me [@professorragna](https://twitter.com/professorragna) if you're interested in contributing to this library.
 
 ## Resources
 
