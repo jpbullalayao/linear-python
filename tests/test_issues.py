@@ -27,7 +27,7 @@ def test_create_issue_success(issue_client, mocker):
         {"team_id": "team-1", "title": "Test Issue", "description": "Test Description"}
     )
 
-    assert result == mock_response
+    assert result == mock_response["data"]["issueCreate"]
 
 
 def test_create_issue_validation(issue_client):
@@ -46,7 +46,7 @@ def test_get_issue(issue_client, mocker):
     mocker.patch.object(issue_client, "_make_request", return_value=mock_response)
 
     result = issue_client.get_issue("test-id")
-    assert result == mock_response
+    assert result == mock_response["data"]["issue"]
 
 
 def test_update_issue(issue_client, mocker):
@@ -61,7 +61,7 @@ def test_update_issue(issue_client, mocker):
     mocker.patch.object(issue_client, "_make_request", return_value=mock_response)
 
     result = issue_client.update_issue("test-id", {"title": "Updated Title"})
-    assert result == mock_response
+    assert result == mock_response["data"]["issueUpdate"]
 
 
 def test_delete_issue(issue_client, mocker):
@@ -69,4 +69,4 @@ def test_delete_issue(issue_client, mocker):
     mocker.patch.object(issue_client, "_make_request", return_value=mock_response)
 
     result = issue_client.delete_issue("test-id")
-    assert result == mock_response
+    assert result == mock_response["data"]["issueDelete"]

@@ -1,34 +1,28 @@
 from ..base import BaseClient
+from ..types import (
+    Issue,
+    IssueArchivePayload,
+    IssueCreateInput,
+    IssuePayload,
+    IssueUpdateInput,
+)
 
 
 class IssueClient(BaseClient):
-    def create_issue(self, issue_data: dict):
-        """
-        Create an issue using a dictionary of issue data.
-        Required fields: team_id, title
-        Optional fields: description, priority, status
-        """
-        if not isinstance(issue_data, dict):
-            raise TypeError("issue_data must be a dictionary")
+    def create_issue(self, data: IssueCreateInput) -> IssuePayload:
+        if not isinstance(data, dict):
+            raise TypeError("data must be a dictionary")
 
-        if "team_id" not in issue_data:
-            raise ValueError("team_id is required in issue_data")
+        if "teamId" not in data:
+            raise ValueError("teamId is required in data")
 
-        if "title" not in issue_data:
-            raise ValueError("title is required in issue_data")
-
-        # Convert team_id to teamId for GraphQL API
-        api_data = {"teamId": issue_data.pop("team_id"), **issue_data}
+        if "title" not in data:
+            raise ValueError("title is required in data")
 
         mutation = """
-        mutation CreateIssue($teamId: String!, $title: String!, $description: String, $priority: Int) {
+        mutation CreateIssue($input: IssueCreateInput!) {
             issueCreate(
-                input: {
-                    teamId: $teamId,
-                    title: $title,
-                    description: $description,
-                    priority: $priority
-                }
+                input: $input
             ) {
                 success
                 issue {
@@ -39,9 +33,16 @@ class IssueClient(BaseClient):
             }
         }
         """
-        return self._make_request(mutation, api_data)
 
-    def get_issue(self, issue_id):
+        api_data = {"input": {**data}}
+
+        response = self._make_request(mutation, api_data)
+        if not response:
+            return response
+
+        return response["data"]["issueCreate"]
+
+    def get_issue(self, issue_id) -> Issue:
         query = """
         query GetIssue($issueId: String!) {
             issue(id: $issueId) {
@@ -83,25 +84,28 @@ class IssueClient(BaseClient):
             "issueId": issue_id,
         }
 
-        return self._make_request(query, variables)
+        response = self._make_request(query, variables)
+        if not response:
+            return response
 
-    def update_issue(self, issue_id: str, updates: dict = None):
+        return response["data"]["issue"]
+
+    def update_issue(
+        self, issue_id: str, data: IssueUpdateInput = None
+    ) -> IssuePayload:
         """
-        Update an issue using a dictionary of field updates.
+        Update an issue using a dictionary of field data.
         Required fields: issue_id
-        Optional fields in updates dict: title, description
+        Optional fields in data dict: title, description
         """
-        if updates is not None and not isinstance(updates, dict):
-            raise TypeError("updates must be a dictionary")
+        if data is not None and not isinstance(data, dict):
+            raise TypeError("data must be a dictionary")
 
         mutation = """
-        mutation UpdateIssue($issueId: String!, $title: String, $description: String) {
+        mutation UpdateIssue($issueId: String!, $input: IssueUpdateInput!) {
             issueUpdate(
                 id: $issueId,
-                input: {
-                    title: $title,
-                    description: $description
-                }
+                input: $input
             ) {
                 success
                 issue {
@@ -113,10 +117,15 @@ class IssueClient(BaseClient):
         }
         """
 
-        variables = {"issueId": issue_id, **(updates or {})}
-        return self._make_request(mutation, variables)
+        api_data = {"issueId": issue_id, "input": {**(data or {})}}
 
-    def delete_issue(self, issue_id, permanently_delete=True):
+        response = self._make_request(mutation, api_data)
+        if not response:
+            return response
+
+        return response["data"]["issueUpdate"]
+
+    def delete_issue(self, issue_id, permanently_delete=True) -> IssueArchivePayload:
         mutation = """
         mutation DeleteIssue($issueId: String!, $permanentlyDelete: Boolean) {
             issueDelete(
@@ -134,9 +143,13 @@ class IssueClient(BaseClient):
         }
         """
 
-        variables = {
+        api_data = {
             "issueId": issue_id,
-            "permanentlyDelete": permanently_delete,
+            # "permanentlyDelete": permanently_delete,
         }
 
-        return self._make_request(mutation, variables)
+        response = self._make_request(mutation, api_data)
+        if not response:
+            return response
+
+        return response["data"]["issueDelete"]

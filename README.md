@@ -2,7 +2,19 @@
 
 A Python client for the [Linear](https://linear.app/) API.
 
+## Requirements
+
+- Python 3.7+
+- Required packages (automatically installed):
+  - requests
+  - python-dotenv
+  - strawberry-graphql
+  - pydantic
+  - typing-extensions
+
 ## Installation
+
+The package and all its dependencies can be installed via pip:
 
 ```bash
 pip install linear-python
@@ -12,36 +24,30 @@ pip install linear-python
 
 ### Configuration
 
-Create an `.env` file that contains your personal Linear API Key:
-
-```
-LINEAR_API_KEY=your-api-key
-```
-
-Then, you are ready to initialize the python Linear client
+Retrieve your personal Linear API Key, and then initialize the python Linear client:
 
 ```python
-from linear_python import LinearClient, Config
-client = LinearClient(Config.API_KEY)
+from linear_python import LinearClient
+client = LinearClient("<Linear API Key Here>")
 ```
 
-### Get Current User (Viewer)
+You're now ready to use linear-python! Below are a few sample functions you can call.
+
+#### Get Current User (Viewer)
 
 ```python
 viewer = client.get_viewer()
-print(f"Current user: {viewer['data']['viewer']['name']}")
 ```
 
-### Create an Issue
+#### Create an Issue
 
 ```python
 issue_data = {
-    "team_id": "your-team-id",
+    "teamId": "your-team-id",
     "title": "New bug report",
     "description": "Description of the issue"
 }
 new_issue = client.create_issue(issue_data)
-print(f"Created issue: {new_issue['data']['issueCreate']['issue']['url']}")
 ```
 
 ## Resources
