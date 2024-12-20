@@ -48,7 +48,7 @@ issue_data = {
 new_issue = client.create_issue(issue_data)
 ```
 
-### Contributing
+## Contributing
 
 There is currently a lot of work to do on this library. A lot of Linear API's GraphQL queries/mutations do not have `linear-python` functions. Feel free to tweet me [@professorragna](https://twitter.com/professorragna) if you're interested in contributing to this library.
 
