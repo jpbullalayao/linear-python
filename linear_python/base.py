@@ -18,8 +18,8 @@ class BaseClient:
         )
 
         # Add debugging information
-        print(f"Status Code: {response.status_code}")
-        print(f"Response: {response.text}")
+        # print(f"Status Code: {response.status_code}")
+        # print(f"Response: {response.text}")
 
         if response.status_code != 200:
             return None

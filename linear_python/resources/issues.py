@@ -10,16 +10,11 @@ from ..types import (
 
 class IssueClient(BaseClient):
     def create_issue(self, data: IssueCreateInput) -> IssuePayload:
-        """
-        Create an issue using a dictionary of issue data.
-        Required fields: team_id, title
-        Optional fields: description, priority, status
-        """
         if not isinstance(data, dict):
             raise TypeError("data must be a dictionary")
 
-        if "team_id" not in data:
-            raise ValueError("team_id is required in data")
+        if "teamId" not in data:
+            raise ValueError("teamId is required in data")
 
         if "title" not in data:
             raise ValueError("title is required in data")
