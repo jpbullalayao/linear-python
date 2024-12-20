@@ -2,7 +2,19 @@
 
 A Python client for the [Linear](https://linear.app/) API.
 
+## Requirements
+
+- Python 3.7+
+- Required packages (automatically installed):
+  - requests
+  - python-dotenv
+  - strawberry-graphql
+  - pydantic
+  - typing-extensions
+
 ## Installation
+
+The package and all its dependencies can be installed via pip:
 
 ```bash
 pip install linear-python
